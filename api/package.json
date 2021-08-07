@@ -12,6 +12,7 @@
   "license": "MIT",
   "dependencies": {
     "fastify": "^3.20.1",
-    "fastify-multipart": "^4.0.7"
+    "fastify-multipart": "^4.0.7",
+    "fastify-secure-session": "^2.3.1"
   }
 }

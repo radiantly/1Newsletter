@@ -28,7 +28,7 @@ const App = () => {
       body: JSON.stringify(data),
     });
     const { message } = await response.json();
-    if (response.status != 200) {
+    if (response.status !== 200) {
       if (message) toast.error(message);
     }
     console.info(response);

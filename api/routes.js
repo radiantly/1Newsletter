@@ -29,7 +29,7 @@ module.exports = function (fastify, opts, done) {
     if (typeof username !== "string" || !/^[a-z0-9._]{3,16}$/i.test(username))
       return reply.status(400).send({
         message:
-          "Please enter a alphanumeric username consisting of 3-16 characters.",
+          "Please enter an alphanumeric username consisting of 3-16 characters.",
       });
 
     if (typeof password !== "string")

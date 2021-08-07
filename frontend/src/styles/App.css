@@ -1,0 +1,124 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #222;
+}
+
+.container {
+  font-family: "Raleway";
+  min-height: 100vh;
+  width: 80vw;
+  padding: 50px 0;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10vh;
+  gap: 5vw;
+}
+
+.container .box {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: min(500px, 80vw);
+}
+
+.container h1 {
+  color: #444;
+  font-weight: 800;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.container .desc {
+  font-size: 28px;
+  /* font-weight: 300; */
+  color: #777;
+  line-height: 40px;
+  margin: 0;
+}
+
+.input {
+  font-size: 30px;
+  border: 2px solid #bbb;
+  border-radius: 4px;
+  padding: 15px 20px;
+  color: #666;
+  outline: none;
+  font-family: Raleway;
+  transition: all 0.2s ease;
+}
+
+.input:hover {
+  border: 2px solid #999;
+}
+
+.input:focus {
+  border: 2px solid #888;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.btn {
+  border: none;
+  background: #333;
+  color: white;
+  font-family: Raleway;
+  font-weight: 500;
+  padding: 15px 23px;
+  font-size: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background: #555;
+}
+
+.alternate {
+  font-size: 18px;
+  color: #999;
+  font-weight: 500;
+}
+
+.alternate a {
+  color: inherit;
+  text-decoration: 1px underline dotted;
+  transition: all 0.2s ease;
+}
+
+.alternate a:hover {
+  color: #555;
+}
+
+.imgbox {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.emailimg {
+  width: min(600px, calc(80vw - 10vw - 500px));
+  animation: slightpulse 3s ease infinite alternate;
+}
+
+@media screen and (max-width: 1000px) {
+  .emailimg {
+    display: none;
+  }
+}
+
+@keyframes slightpulse {
+  from {
+    transform: translatey(0);
+  }
+  to {
+    transform: translatey(8px);
+  }
+}

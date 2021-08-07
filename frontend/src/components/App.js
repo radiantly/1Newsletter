@@ -2,6 +2,7 @@ import "../styles/App.css";
 import sendingEmail from "../assets/sending-email.svg";
 import { useState } from "react";
 import { Login, Register } from "./LandingForms";
+import toast, { Toaster } from "react-hot-toast";
 
 const App = () => {
   const [isLogin, setLogin] = useState(true);
@@ -11,13 +12,26 @@ const App = () => {
     setLogin(!isLogin);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = Array.from(e.target.elements).reduce((data, elem) => {
       if (elem.name) data[elem.name] = elem.value;
       return data;
     }, {});
-    console.info(data);
+    data["login"] = isLogin;
+    const response = await fetch(`/api/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const { message } = await response.json();
+    if (response.status != 200) {
+      if (message) toast.error(message);
+    }
+    console.info(response);
   };
 
   return (
@@ -36,6 +50,7 @@ const App = () => {
       <div class="imgbox">
         <img src={sendingEmail} alt="1Newsletter" class="emailimg" />
       </div>
+      <Toaster />
     </div>
   );
 };

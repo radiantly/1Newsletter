@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1Newsletter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h1>1Newsletter</h1>
+        <p class="desc">
+          Keeping your mailbox clean of newsletters has never been easier.
+        </p>
+        <input required class="input" type="email" placeholder="Email" />
+        <input required class="input" type="password" placeholder="Password" />
+        <input
+          required
+          class="input"
+          type="password"
+          placeholder="Confirm Password"
+        />
+        <div class="row">
+          <input class="btn" type="submit" value="Sign up" />
+          <p class="alternate">
+            Already have an account? <a href="/">Sign in</a>
+          </p>
+        </div>
+      </div>
+      <div class="imgbox">
+        <img src="{{url_for('static', filename='sending-email.svg')}}"alt="1Newsletter" class="emailimg" />
+      </div>
+    </div>
+  </body>
+</html>

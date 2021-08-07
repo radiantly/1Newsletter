@@ -11,9 +11,18 @@ const App = () => {
     setLogin(!isLogin);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = Array.from(e.target.elements).reduce((data, elem) => {
+      if (elem.name) data[elem.name] = elem.value;
+      return data;
+    }, {});
+    console.info(data);
+  };
+
   return (
     <div class="container">
-      <form class="box">
+      <form class="box" onSubmit={handleSubmit}>
         <h1>1Newsletter</h1>
         <p class="desc">
           Keeping your mailbox clean of newsletters has never been easier.

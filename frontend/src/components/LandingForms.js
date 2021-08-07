@@ -1,8 +1,20 @@
 export const Login = ({ switchFormHandler }) => {
   return (
     <>
-      <input required class="input" type="text" placeholder="Username" />
-      <input required class="input" type="password" placeholder="Password" />
+      <input
+        required
+        name="username"
+        class="input"
+        type="text"
+        placeholder="Username"
+      />
+      <input
+        required
+        name="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+      />
       <div class="row">
         <input class="btn" type="submit" value="Sign in" />
         <p class="alternate">
@@ -19,11 +31,30 @@ export const Login = ({ switchFormHandler }) => {
 export const Register = ({ switchFormHandler }) => {
   return (
     <>
-      <input required class="input" type="text" placeholder="Username" />
-      <input required class="input" type="email" placeholder="Email" />
-      <input required class="input" type="password" placeholder="Password" />
       <input
         required
+        name="username"
+        class="input"
+        type="text"
+        placeholder="Username"
+      />
+      <input
+        required
+        name="email"
+        class="input"
+        type="email"
+        placeholder="Email"
+      />
+      <input
+        required
+        name="password"
+        class="input"
+        type="password"
+        placeholder="Password"
+      />
+      <input
+        required
+        name="confirm_password"
         class="input"
         type="password"
         placeholder="Confirm Password"

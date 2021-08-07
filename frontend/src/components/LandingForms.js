@@ -3,10 +3,10 @@ export const Login = ({ switchFormHandler }) => {
     <>
       <input
         required
-        name="username"
+        name="email"
         class="input"
-        type="text"
-        placeholder="Username"
+        type="email"
+        placeholder="Email"
       />
       <input
         required

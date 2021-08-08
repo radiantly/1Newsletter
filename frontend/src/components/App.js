@@ -39,10 +39,18 @@ const App = () => {
     }
   };
 
+  const logout = (e) => {
+    e.preventDefault();
+    setLoggedIn(false);
+  };
+
   const getPageContent = () =>
     isLoggedIn ? (
       <>
         <div class="dash-container">
+          <a href="/" class="logout" onClick={logout}>
+            Logout
+          </a>
           <h1>1Newsletter</h1>
           <p class="desc">This is your personal 1newsletter email:</p>
           <input
@@ -51,6 +59,14 @@ const App = () => {
             value={`${username}@1newsletter.tech`}
             readOnly
           />
+          <div className="emails">
+            <h2>Emails received this week</h2>
+            <ul>
+              <li>
+                How-To Geek | <a href="/">hi there</a>
+              </li>
+            </ul>
+          </div>
         </div>
         <div class="trivia">
           <h2>How does this work?</h2>

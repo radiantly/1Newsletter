@@ -109,12 +109,27 @@
 }
 
 /* Dashboard */
+.logout {
+  font-size: 20px;
+  color: #999;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.logout:hover {
+  color: #555;
+}
+
 .dash-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
   flex-basis: 50%;
+}
+
+.container h2 {
+  color: #444;
 }
 
 .trivia {

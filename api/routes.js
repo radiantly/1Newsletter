@@ -1,33 +1,36 @@
-const { User } = require("./models");
+const { User, Mail } = require("./models");
 
 module.exports = function (fastify, opts, done) {
-  fastify.post("/email", async (req, res) => {
-    console.log(req.body);
-    // const body = req.body;
-    // console.log("to: ", body.to);
-    // console.log("cc: ", body.cc);
-    // console.log("from: ", body.from);
-    // console.log("subject: ", body.subject);
+  fastify.post("/email", async (request, reply) => {
+    console.log("HERRREEEE");
+    // console.log(request.body);
+    const {
+      to: { value: to },
+      from: { value: from },
+      html: { value: html },
+    } = request.body;
 
-    // console.log("html: ", body.html);
-    // console.log("text: ", body.text);
-    // console.log("attachments: ", body.attachments);
-    // console.log("attachment-info: ", body['attachment-info']);
-    // console.log("content-ids: ", body['content-ids']);
+    const username = to.replace(/@.*$/, "");
 
-    // if (req.files.length > 0) {
-    //   // Log file data
-    //   console.log(req.files);
-    // } else {
-    //   console.log("No files...");
-    // }
+    console.info(to, from, html);
+    Mail.add(username, from, html);
 
-    return res.status(200).send();
+    return reply.status(200).send();
+  });
+
+  fastify.get("/mails", async (request, reply) => {
+    const data = request.session.get("data");
+    if (!data)
+      return reply.status(403).send({ message: "Please login to continue" });
+
+    const user = await User.byEmail(data.email);
+    return reply.status(200).send(await user.mails);
   });
 
   fastify.post("/login", async (request, reply) => {
     let user;
     const { username, email, password, confirm_password, login } = request.body;
+    console.log("does this work?");
 
     if (typeof email !== "string" || !/^[^@]+@[^@]+\.[a-z]+$/i.test(email))
       return reply.status(400).send({
@@ -75,6 +78,11 @@ module.exports = function (fastify, opts, done) {
           .send({ message: "The password specified is incorrect." });
     }
 
+    request.session.set("data", {
+      username,
+      email,
+    });
+
     return reply.status(200).send({
       message: "Success! Logging you in..",
       userinfo: {
@@ -83,5 +91,6 @@ module.exports = function (fastify, opts, done) {
       },
     });
   });
+
   done();
 };

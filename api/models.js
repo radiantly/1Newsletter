@@ -1,5 +1,8 @@
 const { Sequelize, Model, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("sqlite::memory:");
+const sequelize = new Sequelize({
+  dialect: "sqlite",
+  storage: "database.sqlite3",
+});
 const bcrypt = require("bcrypt");
 const { BCRYPT_SALT_ROUNDS } = require("./config");
 
@@ -21,6 +24,13 @@ class User extends Model {
       password: await bcrypt.hash(plaintextPassword, BCRYPT_SALT_ROUNDS),
     });
   };
+  get mails() {
+    return Mail.findAll({
+      where: {
+        username: this.username,
+      },
+    });
+  }
   verify = async (plaintextPassword) => {
     return await bcrypt.compare(plaintextPassword, this.password);
   };
@@ -41,8 +51,31 @@ User.init(
   { sequelize, modelName: "user" }
 );
 
+class Mail extends Model {
+  static add = async (username, from, html) => {
+    return await Mail.create({
+      username: username.toLowerCase(),
+      from,
+      body: html,
+    });
+  };
+  get fromName() {
+    return this.from.replace(/<.*?>/, "").trim();
+  }
+}
+
+Mail.init(
+  {
+    username: DataTypes.TEXT,
+    from: DataTypes.TEXT,
+    body: DataTypes.TEXT,
+  },
+  { sequelize, modelName: "mail" }
+);
+
 sequelize.sync();
 
 module.exports = {
   User,
+  Mail,
 };

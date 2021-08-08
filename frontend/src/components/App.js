@@ -64,7 +64,10 @@ const App = () => {
     if (!mails.length) return <p>No mails yet!</p>;
     return mails.map(({ uuid, fromName, subject }) => (
       <li key={uuid}>
-        {fromName} | <a href={`/mails/${uuid}`}>{subject}</a>
+        {fromName} |{" "}
+        <a href={`/mails/${uuid}`} target="_blank">
+          {subject}
+        </a>
       </li>
     ));
   };

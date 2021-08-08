@@ -5,6 +5,7 @@ const sequelize = new Sequelize({
 });
 const bcrypt = require("bcrypt");
 const { BCRYPT_SALT_ROUNDS } = require("./config");
+const { v4: uuidv4 } = require("uuid");
 
 class User extends Model {
   static byEmail = async (email) => {
@@ -52,11 +53,13 @@ User.init(
 );
 
 class Mail extends Model {
-  static add = async (username, from, html) => {
+  static add = async (username, from, subject, html) => {
     return await Mail.create({
       username: username.toLowerCase(),
       from,
+      subject,
       body: html,
+      uuid: uuidv4(),
     });
   };
   get fromName() {
@@ -68,7 +71,12 @@ Mail.init(
   {
     username: DataTypes.TEXT,
     from: DataTypes.TEXT,
+    subject: DataTypes.TEXT,
     body: DataTypes.TEXT,
+    uuid: {
+      type: DataTypes.TEXT,
+      primaryKey: true,
+    },
   },
   { sequelize, modelName: "mail" }
 );

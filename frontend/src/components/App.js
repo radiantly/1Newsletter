@@ -1,6 +1,6 @@
 import "../styles/App.css";
 import sendingEmail from "../assets/sending-email.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Login, Register } from "./LandingForms";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -8,6 +8,20 @@ const App = () => {
   const [username, setUsername] = useState("example");
   const [isLogin, setLogin] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [mails, setMails] = useState([]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    (async () => {
+      const response = await fetch("/api/mails");
+      if (response.status === 403) {
+        setLoggedIn(false);
+        toast.error("Please login.");
+        return;
+      }
+      setMails(await response.json());
+    })();
+  }, [isLoggedIn]);
 
   const switchFormHandler = (e) => {
     e.preventDefault();
@@ -44,28 +58,33 @@ const App = () => {
     setLoggedIn(false);
   };
 
+  const listEmails = () => {
+    if (!mails.length) return <p>No mails yet!</p>;
+    return mails.map(({ uuid, fromName, subject }) => (
+      <li key={uuid}>
+        {fromName} | <a href={`/mails/${uuid}`}>{subject}</a>
+      </li>
+    ));
+  };
+
   const getPageContent = () =>
     isLoggedIn ? (
       <>
-        <div class="dash-container">
-          <a href="/" class="logout" onClick={logout}>
+        <div className="dash-container">
+          <a href="/" className="logout" onClick={logout}>
             Logout
           </a>
           <h1>1Newsletter</h1>
-          <p class="desc">This is your personal 1newsletter email:</p>
+          <p className="desc">This is your personal 1newsletter email:</p>
           <input
-            class="input"
+            className="input"
             type="email"
             value={`${username}@1newsletter.tech`}
             readOnly
           />
           <div className="emails">
             <h2>Emails received this week</h2>
-            <ul>
-              <li>
-                How-To Geek | <a href="/">hi there</a>
-              </li>
-            </ul>
+            <ul>{listEmails()}</ul>
           </div>
         </div>
         <div class="trivia">

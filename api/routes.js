@@ -2,18 +2,25 @@ const { User, Mail } = require("./models");
 
 module.exports = function (fastify, opts, done) {
   fastify.post("/email", async (request, reply) => {
-    console.log("HERRREEEE");
     // console.log(request.body);
     const {
       to: { value: to },
       from: { value: from },
-      html: { value: html },
+      html,
+      subject,
+      text,
     } = request.body;
 
     const username = to.replace(/@.*$/, "");
 
-    console.info(to, from, html);
-    Mail.add(username, from, html);
+    Mail.add(
+      username,
+      from,
+      subject?.value || "No subject provided",
+      html?.value || text?.value || "No email body."
+    );
+
+    console.info("Email received!");
 
     return reply.status(200).send();
   });
@@ -24,13 +31,21 @@ module.exports = function (fastify, opts, done) {
       return reply.status(403).send({ message: "Please login to continue" });
 
     const user = await User.byEmail(data.email);
-    return reply.status(200).send(await user.mails);
+    const mails = await user.mails;
+    return reply
+      .status(200)
+      .send(
+        mails.map((mail) => ({
+          subject: mail.subject,
+          uuid: mail.uuid,
+          fromName: mail.fromName,
+        }))
+      );
   });
 
   fastify.post("/login", async (request, reply) => {
     let user;
     const { username, email, password, confirm_password, login } = request.body;
-    console.log("does this work?");
 
     if (typeof email !== "string" || !/^[^@]+@[^@]+\.[a-z]+$/i.test(email))
       return reply.status(400).send({

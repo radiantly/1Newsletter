@@ -3,6 +3,8 @@ import sendingEmail from "../assets/sending-email.svg";
 import { useEffect, useState } from "react";
 import { Login, Register } from "./LandingForms";
 import toast, { Toaster } from "react-hot-toast";
+import { Switch, Route } from "react-router-dom";
+import Mail from "./Mail.js";
 
 const App = () => {
   const [username, setUsername] = useState("example");
@@ -120,7 +122,14 @@ const App = () => {
 
   return (
     <div class="container">
-      {getPageContent()}
+      <Switch>
+        <Route exact path="/">
+          {getPageContent()}
+        </Route>
+        <Route path="/mails/:uuid">
+          <Mail />
+        </Route>
+      </Switch>
       <Toaster />
     </div>
   );

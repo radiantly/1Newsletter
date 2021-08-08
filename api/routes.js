@@ -22,7 +22,7 @@ module.exports = function (fastify, opts, done) {
 
     console.info("Email received!");
 
-    return reply.status(200).send();
+    return reply.send();
   });
 
   fastify.get("/mails", async (request, reply) => {
@@ -32,15 +32,20 @@ module.exports = function (fastify, opts, done) {
 
     const user = await User.byEmail(data.email);
     const mails = await user.mails;
-    return reply
-      .status(200)
-      .send(
-        mails.map((mail) => ({
-          subject: mail.subject,
-          uuid: mail.uuid,
-          fromName: mail.fromName,
-        }))
-      );
+    return reply.send(
+      mails.map((mail) => ({
+        subject: mail.subject,
+        uuid: mail.uuid,
+        fromName: mail.fromName,
+      }))
+    );
+  });
+
+  fastify.get("/mail/:uuid", async (request, reply) => {
+    const { uuid } = request.params;
+    const mail = await Mail.findByPk(uuid);
+    if (!mail) return reply.status(404).send({ message: "Mail not found" });
+    return reply.send(mail);
   });
 
   fastify.post("/login", async (request, reply) => {
@@ -98,7 +103,7 @@ module.exports = function (fastify, opts, done) {
       email,
     });
 
-    return reply.status(200).send({
+    return reply.send({
       message: "Success! Logging you in..",
       userinfo: {
         username: user.username,

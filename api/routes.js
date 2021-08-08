@@ -75,7 +75,13 @@ module.exports = function (fastify, opts, done) {
           .send({ message: "The password specified is incorrect." });
     }
 
-    return reply.status(200).send({ message: "Success! Logging you in.." });
+    return reply.status(200).send({
+      message: "Success! Logging you in..",
+      userinfo: {
+        username: user.username,
+        email: user.email,
+      },
+    });
   });
   done();
 };

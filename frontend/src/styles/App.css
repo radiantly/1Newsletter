@@ -108,6 +108,26 @@
   animation: slightpulse 3s ease infinite alternate;
 }
 
+/* Dashboard */
+.dash-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  flex-basis: 50%;
+}
+
+.trivia {
+  text-align: right;
+  flex-basis: 50%;
+  max-width: 600px;
+}
+
+.trivia p {
+  font-size: 24px;
+  color: #555;
+}
+
 @media screen and (max-width: 1000px) {
   .emailimg {
     display: none;

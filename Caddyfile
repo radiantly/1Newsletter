@@ -1,5 +1,8 @@
-:9090
+:80
 
 root * ./frontend/build/
-reverse_proxy /api/* localhost:5000
-file_server
+route {
+  reverse_proxy /api/* localhost:5000
+  try_files {path} /
+  file_server
+}
